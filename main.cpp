@@ -107,7 +107,8 @@ void convert_screen() {
 
     while (yaw == 0) {
         system("cls");
-        std::cout << "Enter desired game (Type 'games' to see supported games): \n";
+        std::cout << "Your current game is " << USER_SETTINGS.gameName << "\n"
+        << "Enter desired game (Type 'games' to see supported games): \n";
         std::cin >> game;
 
         if (game == "games") print_games();
