@@ -53,7 +53,7 @@ void help_screen() {
 
 void welcome_screen() {
     system("cls");
-    std::cout << "Welcome to yukii's sensitivity calculator3\n"
+    std::cout << "Welcome to yukii's sensitivity calculator\n"
     << "Type 'help' for info\n"
     << "Type 'exit' to exit\n";
 }
