@@ -12,7 +12,6 @@ struct userSettings{
     int dpi;
 };
 
-//VARS
 userSettings USER_SETTINGS;
 const double CM_PER_INCH = 2.54;
 
@@ -28,7 +27,6 @@ std::vector<gameYaws> GAME_YAWS = {
         {"val", 0.06996}
 };
 
-//CALCUATIONS
 double calc_cm(int dpi, double sens, double yaw) {
     auto inc = yaw * sens;
     auto counts_per_rev = 360 / inc;
@@ -38,7 +36,6 @@ double calc_cm(int dpi, double sens, double yaw) {
     return result_cm;
 }
 
-//SCREENS
 void print_games() {
     system("cls");
     for (std::vector<gameYaws>::iterator game = GAME_YAWS.begin(); game != GAME_YAWS.end(); ++game) {
@@ -59,16 +56,14 @@ void help_screen() {
 
 void welcome_screen() {
     system("cls");
-    std::cout << "Welcome to purukii's sensitivity calculator uwu ;3\n"
+    std::cout << "Welcome to purukii's sensitivity calculator3\n"
     << "Type 'help' for info\n"
     << "Type 'exit' to exit\n";
 }
 
 double get_yaw(std::string game_name) {
     for (std::vector<gameYaws>::iterator game = GAME_YAWS.begin(); game != GAME_YAWS.end(); ++game) {
-        if (game -> gameName == game_name) {
-            return game -> yaw;
-        }
+        if (game -> gameName == game_name) return game -> yaw;
     }
 
     return 0;
@@ -81,16 +76,16 @@ void add_sens() {
 
     system("cls");
     while (yaw == 0) {
-        std::cout << "Enter game\n";
+        std::cout << "Enter your game\n";
         std::cin >> game;
 
         yaw = get_yaw(game);
     }
 
-    std::cout << "Enter DPI\n";
+    std::cout << "Enter your DPI\n";
     std::cin >> dpi;
 
-    std::cout << "Enter sens\n";
+    std::cout << "Enter your sens\n";
     std::cin >> game_sens;
 
     USER_SETTINGS.dpi = dpi;
@@ -100,25 +95,45 @@ void add_sens() {
     USER_SETTINGS.cm_sens = calc_cm(dpi, game_sens, yaw);
 }
 
+double convert_sens(double yaw) {
+    double sens;
+
+    sens = (360 / (USER_SETTINGS.dpi * (USER_SETTINGS.cm_sens / CM_PER_INCH))) / yaw;
+    return sens;
+}
+
+void convert_screen() {
+    if (USER_SETTINGS.cm_sens == 0) add_sens();
+
+    std::string game;
+    double yaw = 0;
+
+    while (yaw == 0) {
+        system("cls");
+        std::cout << "Enter desired game (Type 'games' to see supported games): \n";
+        std::cin >> game;
+
+        if (game == "games") print_games();
+
+        yaw = get_yaw(game);
+    }
+
+    std::cout << "Your sens in '" << game << "' is: " << convert_sens(yaw) << "\n"; 
+    system("pause");
+}
+
 void sens_screen() {
     add_sens();
-    std::cout << "Sens added >~<\n";
+    std::cout << "Sens added\n";
     system("pause");
 }
 
 void cm_screen() {
     system("cls");
 
-    if (USER_SETTINGS.cm_sens == 0) {
-        add_sens();
-    }
+    if (USER_SETTINGS.cm_sens == 0) add_sens();
 
-    std::cout << "Here is your sens nya: " << USER_SETTINGS.cm_sens << "cm/360 :3\n";
-
-    if (USER_SETTINGS.cm_sens == 25.10) {
-        std::cout << "I love you roman, my alpha <3\n";
-    }
-
+    std::cout << "Your sens: " << USER_SETTINGS.cm_sens << "cm/360\n";
     system("pause"); 
 }
 
@@ -127,6 +142,7 @@ void menu_select(std::string input) {
     if (input == "cm") cm_screen();
     if (input == "games") print_games();
     if (input == "sens") sens_screen();
+    if (input == "convert") convert_screen();
 }
 
 int main() {
