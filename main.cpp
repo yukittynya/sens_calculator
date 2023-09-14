@@ -28,12 +28,9 @@ std::vector<gameYaws> GAME_YAWS = {
 };
 
 double calc_cm(int dpi, double sens, double yaw) {
-    auto inc = yaw * sens;
-    auto counts_per_rev = 360 / inc;
-    double cm = counts_per_rev / dpi * CM_PER_INCH, result_cm;
-
-    result_cm = static_cast<float>(static_cast<int>(cm * 10.)) / 10.;
-    return result_cm;
+    double cm = (360 / (yaw * sens)) / dpi * CM_PER_INCH;
+    cm = static_cast<float>(static_cast<int>(cm * 10.)) / 10.;
+    return cm;
 }
 
 void print_games() {
@@ -56,7 +53,7 @@ void help_screen() {
 
 void welcome_screen() {
     system("cls");
-    std::cout << "Welcome to purukii's sensitivity calculator3\n"
+    std::cout << "Welcome to yukii's sensitivity calculator3\n"
     << "Type 'help' for info\n"
     << "Type 'exit' to exit\n";
 }
