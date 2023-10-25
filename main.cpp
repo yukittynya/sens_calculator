@@ -141,6 +141,7 @@ void menu_select(std::string input) {
     if (input == "games") print_games();
     if (input == "sens") sens_screen();
     if (input == "convert") convert_screen();
+    if (input == "exit") exit(0);
 }
 
 int main() {
